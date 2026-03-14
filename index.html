@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Football Boot Compare</title>
+
+<style>
+
+body{
+font-family: Arial, sans-serif;
+margin:0;
+background:#f4f4f4;
+}
+
+header{
+background:#111;
+color:white;
+padding:15px;
+text-align:center;
+}
+
+.container{
+padding:20px;
+}
+
+.boot-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+gap:20px;
+}
+
+.boot-card{
+background:white;
+padding:15px;
+border-radius:10px;
+box-shadow:0 2px 6px rgba(0,0,0,0.1);
+text-align:center;
+}
+
+.boot-card img{
+width:100%;
+height:120px;
+object-fit:contain;
+}
+
+button{
+background:#0077ff;
+color:white;
+border:none;
+padding:8px 12px;
+border-radius:5px;
+cursor:pointer;
+}
+
+button:hover{
+background:#005ed1;
+}
+
+.compare-section{
+margin-top:40px;
+background:white;
+padding:20px;
+border-radius:10px;
+}
+
+table{
+width:100%;
+border-collapse:collapse;
+}
+
+td,th{
+border:1px solid #ddd;
+padding:10px;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<header>
+<h1>Football Boot Comparison</h1>
+<p>Find the perfect football boots</p>
+</header>
+
+<div class="container">
+
+<h2>Boots</h2>
+
+<div class="boot-grid" id="bootGrid"></div>
+
+<div class="compare-section">
+<h2>Comparison</h2>
+<table id="compareTable">
+<tr>
+<th>Model</th>
+<th>Brand</th>
+<th>Price</th>
+<th>Surface</th>
+<th>Weight</th>
+</tr>
+</table>
+</div>
+
+</div>
+
+<script>
+
+const boots = [
+
+{
+brand:"Nike",
+model:"Mercurial Vapor 15",
+price:"€260",
+surface:"FG",
+weight:"190g",
+image:"https://static.nike.com/a/images/t_default/mercurial.jpg"
+},
+
+{
+brand:"Adidas",
+model:"Predator Elite",
+price:"€250",
+surface:"FG",
+weight:"210g",
+image:"https://assets.adidas.com/predator.jpg"
+},
+
+{
+brand:"Puma",
+model:"Future 7 Ultimate",
+price:"€230",
+surface:"FG",
+weight:"205g",
+image:"https://images.puma.com/future7.jpg"
+},
+
+{
+brand:"New Balance",
+model:"Furon v7",
+price:"€220",
+surface:"FG",
+weight:"198g",
+image:"https://nb.scene7.com/furon.jpg"
+}
+
+]
+
+const bootGrid = document.getElementById("bootGrid")
+const compareTable = document.getElementById("compareTable")
+
+boots.forEach((boot,index)=>{
+
+const card=document.createElement("div")
+card.className="boot-card"
+
+card.innerHTML=`
+<img src="${boot.image}" alt="">
+<h3>${boot.model}</h3>
+<p>${boot.brand}</p>
+<p>${boot.price}</p>
+<button onclick="compareBoot(${index})">Compare</button>
+`
+
+bootGrid.appendChild(card)
+
+})
+
+function compareBoot(index){
+
+const boot=boots[index]
+
+const row=document.createElement("tr")
+
+row.innerHTML=`
+<td>${boot.model}</td>
+<td>${boot.brand}</td>
+<td>${boot.price}</td>
+<td>${boot.surface}</td>
+<td>${boot.weight}</td>
+`
+
+compareTable.appendChild(row)
+
+}
+
+</script>
+
+</body>
+</html>

@@ -1,16 +1,18 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <script src="https://cdn.tailwindcss.com"></script>
 
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>BootDeal - Find the Cheapest Football Boots</title>
 
+<script src="https://cdn.tailwindcss.com"></script>
 
 </head>
 
-<body>
+<body class="bg-gray-100">
 
 <header class="bg-black text-white p-4 flex justify-between items-center">
 
@@ -24,42 +26,36 @@ class="text-black px-3 py-2 rounded"
 />
 
 </header>
-<section class="bg-gray-100 py-16 text-center">
 
-<h1 class="text-4xl font-bold mb-4">
-Find the Cheapest Football Boots ⚽
-</h1>
+<section class="bg-white py-12 text-center">
 
-<p class="text-gray-600 mb-6">
+<h2 class="text-3xl font-bold mb-3">
+Find the Cheapest Football Boots
+</h2>
+
+<p class="text-gray-600">
 Compare prices from multiple stores and get the best deal.
 </p>
 
-<input 
-type="text"
-placeholder="Search boots like Mercurial, Predator..."
-class="px-4 py-3 w-80 rounded shadow"
-/>
-
 </section>
 
+<div class="max-w-6xl mx-auto p-6">
 
-<div class="container">
+<h2 class="text-2xl font-bold mb-6">Popular Boots</h2>
 
-<h2>Popular Football Boots</h2>
+<div id="bootGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
 
-<div class="boot-grid" id="bootGrid"></div>
+<div class="mt-12">
 
-<div class="compare-section">
-<h2>Best Deals</h2>
+<h2 class="text-2xl font-bold mb-4">Best Deals</h2>
 
-<table id="compareTable">
+<table id="compareTable" class="w-full bg-white shadow rounded">
 
-<tr>
-<th>Boot</th>
-<th>Store</th>
-<th>Price</th>
-<th>Deal</th>
-<th></th>
+<tr class="bg-gray-200">
+<th class="p-2">Boot</th>
+<th class="p-2">Store</th>
+<th class="p-2">Price</th>
+<th class="p-2">Deal</th>
 </tr>
 
 </table>
@@ -75,103 +71,87 @@ const boots = [
 {
 brand:"Nike",
 model:"Mercurial Vapor 15",
+image:"https://via.placeholder.com/300x200",
 prices:[
-{store:"Nike",price:260,link:"#"},
-{store:"SportsDirect",price:229,link:"#"},
-{store:"ProDirect",price:235,link:"#"}
+{store:"Nike",price:260},
+{store:"SportsDirect",price:229},
+{store:"ProDirect",price:235}
 ]
 },
 
 {
 brand:"Adidas",
 model:"Predator Elite",
+image:"https://via.placeholder.com/300x200",
 prices:[
-{store:"Adidas",price:250,link:"#"},
-{store:"SportsDirect",price:220,link:"#"},
-{store:"ProDirect",price:230,link:"#"}
+{store:"Adidas",price:250},
+{store:"SportsDirect",price:220},
+{store:"ProDirect",price:230}
 ]
 },
 
 {
 brand:"Puma",
 model:"Future 7 Ultimate",
+image:"https://via.placeholder.com/300x200",
 prices:[
-{store:"Puma",price:240,link:"#"},
-{store:"SportsDirect",price:210,link:"#"},
-{store:"ProDirect",price:225,link:"#"}
+{store:"Puma",price:240},
+{store:"SportsDirect",price:210},
+{store:"ProDirect",price:225}
 ]
 },
 
 {
 brand:"New Balance",
 model:"Furon v7",
+image:"https://via.placeholder.com/300x200",
 prices:[
-{store:"New Balance",price:220,link:"#"},
-{store:"SportsDirect",price:199,link:"#"},
-{store:"ProDirect",price:205,link:"#"}
+{store:"New Balance",price:220},
+{store:"SportsDirect",price:199},
+{store:"ProDirect",price:205}
 ]
 }
 
 ]
 
+const grid = document.getElementById("bootGrid")
+const table = document.getElementById("compareTable")
+const searchInput = document.getElementById("searchInput")
 
-{
-brand:"Nike",
-model:"Mercurial Vapor 15",
-store:"SportsDirect",
-price:229,
-link:"#"
-},
+function displayBoots(list){
 
-{
-brand:"Adidas",
-model:"Predator Elite",
-store:"ProDirect",
-price:235,
-link:"#"
-},
+grid.innerHTML=""
 
-{
-brand:"Puma",
-model:"Future 7 Ultimate",
-store:"SportsDirect",
-price:210,
-link:"#"
-},
+list.forEach((boot,index)=>{
 
-{
-brand:"New Balance",
-model:"Furon v7",
-store:"ProDirect",
-price:199,
-link:"#"
+let cheapest = boot.prices[0]
+
+boot.prices.forEach(p=>{
+if(p.price < cheapest.price){
+cheapest = p
 }
+})
 
-]
+const card = document.createElement("div")
 
-const grid=document.getElementById("bootGrid")
-const table=document.getElementById("compareTable")
+card.className = "bg-white rounded shadow p-4"
 
-boots.forEach((boot,i)=>{
+card.innerHTML = `
 
-const card=document.createElement("div")
+<img src="${boot.image}" class="rounded mb-3">
 
-card.className="boot-card"
+<h3 class="text-lg font-bold">${boot.model}</h3>
 
-card.innerHTML=`
+<p class="text-gray-600">${boot.brand}</p>
 
-<img src="https://via.placeholder.com/200x150">
+<p class="font-bold mt-2">From €${cheapest.price}</p>
 
-<h3>${boot.model}</h3>
-
-<p>${boot.brand}</p>
-
-<p class="price">€${boot.price}</p>
-
-<a href="boot.html?boot=mercurial">
-<button>Find Best Deal</button>
-</a>
-
+<button 
+onclick="showDeals(${index})"
+class="mt-3 bg-green-500 text-white px-4 py-2 rounded w-full"
+>
+Find Best Deal
+</button>
 
 `
 
@@ -179,7 +159,20 @@ grid.appendChild(card)
 
 })
 
-function showDeal(index){
+}
+
+displayBoots(boots)
+
+function showDeals(index){
+
+table.innerHTML = `
+<tr class="bg-gray-200">
+<th class="p-2">Boot</th>
+<th class="p-2">Store</th>
+<th class="p-2">Price</th>
+<th class="p-2">Deal</th>
+</tr>
+`
 
 const boot = boots[index]
 
@@ -193,19 +186,21 @@ cheapest = p
 
 boot.prices.forEach(p=>{
 
-const row=document.createElement("tr")
+const row = document.createElement("tr")
 
-row.innerHTML=`
+row.innerHTML = `
 
-<td>${boot.model}</td>
+<td class="p-2">${boot.model}</td>
 
-<td>${p.store}</td>
+<td class="p-2">${p.store}</td>
 
-<td ${p.price===cheapest.price ? 'class="best"' : ""}>€${p.price}</td>
+<td class="p-2 ${p.price===cheapest.price ? 'font-bold text-green-600' : ''}">
+€${p.price}
+</td>
 
-<td>${p.price===cheapest.price ? "Best Deal 🔥" : ""}</td>
-
-<td><button class="buy">Buy</button></td>
+<td class="p-2">
+${p.price===cheapest.price ? "Best Deal 🔥" : ""}
+</td>
 
 `
 
@@ -215,71 +210,20 @@ table.appendChild(row)
 
 }
 
-
-const boot=boots[index]
-
-const row=document.createElement("tr")
-
-row.innerHTML=`
-
-<td>${boot.model}</td>
-
-<td>${boot.store}</td>
-
-<td class="best">€${boot.price}</td>
-
-<td>Best Price</td>
-
-<td><button class="buy">Buy</button></td>
-
-`
-
-table.appendChild(row)
-
-}
-
-</script>
-  const searchInput = document.getElementById("searchInput")
-
-searchInput.addEventListener("keyup", function(){
+searchInput.addEventListener("keyup",function(){
 
 const search = searchInput.value.toLowerCase()
 
-grid.innerHTML = ""
-
-boots.forEach((boot,i)=>{
-
-if(
+const filtered = boots.filter(boot =>
 boot.model.toLowerCase().includes(search) ||
 boot.brand.toLowerCase().includes(search)
-){
+)
 
-const card=document.createElement("div")
-
-card.className="boot-card"
-
-card.innerHTML=`
-
-<img src="https://via.placeholder.com/200x150">
-
-<h3>${boot.model}</h3>
-
-<p>${boot.brand}</p>
-
-<p class="price">Find Best Price</p>
-
-<button onclick="showDeal(${i})">Find Best Deal</button>
-
-`
-
-grid.appendChild(card)
-
-}
+displayBoots(filtered)
 
 })
 
-})
-
+</script>
 
 </body>
 </html>

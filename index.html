@@ -329,6 +329,47 @@ table.appendChild(row)
 }
 
 </script>
+  const searchInput = document.getElementById("searchInput")
+
+searchInput.addEventListener("keyup", function(){
+
+const search = searchInput.value.toLowerCase()
+
+grid.innerHTML = ""
+
+boots.forEach((boot,i)=>{
+
+if(
+boot.model.toLowerCase().includes(search) ||
+boot.brand.toLowerCase().includes(search)
+){
+
+const card=document.createElement("div")
+
+card.className="boot-card"
+
+card.innerHTML=`
+
+<img src="https://via.placeholder.com/200x150">
+
+<h3>${boot.model}</h3>
+
+<p>${boot.brand}</p>
+
+<p class="price">Find Best Price</p>
+
+<button onclick="showDeal(${i})">Find Best Deal</button>
+
+`
+
+grid.appendChild(card)
+
+}
+
+})
+
+})
+
 
 </body>
 </html>

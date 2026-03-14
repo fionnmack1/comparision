@@ -271,6 +271,41 @@ grid.appendChild(card)
 
 function showDeal(index){
 
+const boot = boots[index]
+
+let cheapest = boot.prices[0]
+
+boot.prices.forEach(p=>{
+if(p.price < cheapest.price){
+cheapest = p
+}
+})
+
+boot.prices.forEach(p=>{
+
+const row=document.createElement("tr")
+
+row.innerHTML=`
+
+<td>${boot.model}</td>
+
+<td>${p.store}</td>
+
+<td ${p.price===cheapest.price ? 'class="best"' : ""}>€${p.price}</td>
+
+<td>${p.price===cheapest.price ? "Best Deal 🔥" : ""}</td>
+
+<td><button class="buy">Buy</button></td>
+
+`
+
+table.appendChild(row)
+
+})
+
+}
+
+
 const boot=boots[index]
 
 const row=document.createElement("tr")

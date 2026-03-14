@@ -3,54 +3,88 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Football Boot Compare</title>
+<title>BootDeal - Find the Cheapest Football Boots</title>
 
 <style>
 
 body{
 font-family: Arial, sans-serif;
 margin:0;
-background:#f4f4f4;
+background:#f5f7fa;
 }
 
 header{
 background:#111;
 color:white;
-padding:15px;
-text-align:center;
+padding:20px;
+display:flex;
+justify-content:space-between;
+align-items:center;
+}
+
+header h1{
+margin:0;
+font-size:22px;
+}
+
+.search-bar input{
+padding:8px;
+border-radius:6px;
+border:none;
 }
 
 .container{
-padding:20px;
+padding:30px;
+max-width:1200px;
+margin:auto;
+}
+
+h2{
+margin-bottom:20px;
 }
 
 .boot-grid{
 display:grid;
-grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:20px;
 }
 
 .boot-card{
 background:white;
-padding:15px;
-border-radius:10px;
-box-shadow:0 2px 6px rgba(0,0,0,0.1);
-text-align:center;
+padding:20px;
+border-radius:12px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
+transition:0.2s;
+}
+
+.boot-card:hover{
+transform:translateY(-5px);
 }
 
 .boot-card img{
 width:100%;
-height:120px;
+height:150px;
 object-fit:contain;
 }
 
+.boot-card h3{
+margin:10px 0 5px;
+}
+
+.price{
+font-weight:bold;
+color:#0077ff;
+}
+
 button{
+margin-top:10px;
 background:#0077ff;
 color:white;
 border:none;
-padding:8px 12px;
-border-radius:5px;
+padding:10px;
+border-radius:6px;
 cursor:pointer;
+width:100%;
 }
 
 button:hover{
@@ -58,21 +92,36 @@ background:#005ed1;
 }
 
 .compare-section{
-margin-top:40px;
+margin-top:50px;
 background:white;
-padding:20px;
-border-radius:10px;
+padding:25px;
+border-radius:12px;
+box-shadow:0 3px 8px rgba(0,0,0,0.1);
 }
 
 table{
 width:100%;
 border-collapse:collapse;
+margin-top:15px;
 }
 
-td,th{
-border:1px solid #ddd;
-padding:10px;
+th,td{
+border-bottom:1px solid #eee;
+padding:12px;
 text-align:center;
+}
+
+.best{
+color:green;
+font-weight:bold;
+}
+
+.buy{
+background:green;
+}
+
+.buy:hover{
+background:#0b8f0b;
 }
 
 </style>
@@ -81,108 +130,123 @@ text-align:center;
 <body>
 
 <header>
-<h1>Football Boot Comparison</h1>
-<p>Find the perfect football boots</p>
+<h1>BootDeal ⚽</h1>
+<div class="search-bar">
+<input type="text" placeholder="Search boots..." id="searchInput">
+</div>
 </header>
 
 <div class="container">
 
-<h2>Boots</h2>
+<h2>Popular Football Boots</h2>
 
 <div class="boot-grid" id="bootGrid"></div>
 
 <div class="compare-section">
-<h2>Comparison</h2>
+<h2>Best Deals</h2>
+
 <table id="compareTable">
+
 <tr>
-<th>Model</th>
-<th>Brand</th>
+<th>Boot</th>
+<th>Store</th>
 <th>Price</th>
-<th>Surface</th>
-<th>Weight</th>
+<th>Deal</th>
+<th></th>
 </tr>
+
 </table>
+
 </div>
 
 </div>
 
 <script>
 
-const boots = [
+const boots=[
 
 {
 brand:"Nike",
 model:"Mercurial Vapor 15",
-price:"€260",
-surface:"FG",
-weight:"190g",
-image:"https://static.nike.com/a/images/t_default/mercurial.jpg"
+store:"SportsDirect",
+price:229,
+link:"#"
 },
 
 {
 brand:"Adidas",
 model:"Predator Elite",
-price:"€250",
-surface:"FG",
-weight:"210g",
-image:"https://assets.adidas.com/predator.jpg"
+store:"ProDirect",
+price:235,
+link:"#"
 },
 
 {
 brand:"Puma",
 model:"Future 7 Ultimate",
-price:"€230",
-surface:"FG",
-weight:"205g",
-image:"https://images.puma.com/future7.jpg"
+store:"SportsDirect",
+price:210,
+link:"#"
 },
 
 {
 brand:"New Balance",
 model:"Furon v7",
-price:"€220",
-surface:"FG",
-weight:"198g",
-image:"https://nb.scene7.com/furon.jpg"
+store:"ProDirect",
+price:199,
+link:"#"
 }
 
 ]
 
-const bootGrid = document.getElementById("bootGrid")
-const compareTable = document.getElementById("compareTable")
+const grid=document.getElementById("bootGrid")
+const table=document.getElementById("compareTable")
 
-boots.forEach((boot,index)=>{
+boots.forEach((boot,i)=>{
 
 const card=document.createElement("div")
+
 card.className="boot-card"
 
 card.innerHTML=`
-<img src="${boot.image}" alt="">
+
+<img src="https://via.placeholder.com/200x150">
+
 <h3>${boot.model}</h3>
+
 <p>${boot.brand}</p>
-<p>${boot.price}</p>
-<button onclick="compareBoot(${index})">Compare</button>
+
+<p class="price">€${boot.price}</p>
+
+<button onclick="showDeal(${i})">Find Best Deal</button>
+
 `
 
-bootGrid.appendChild(card)
+grid.appendChild(card)
 
 })
 
-function compareBoot(index){
+function showDeal(index){
 
 const boot=boots[index]
 
 const row=document.createElement("tr")
 
 row.innerHTML=`
+
 <td>${boot.model}</td>
-<td>${boot.brand}</td>
-<td>${boot.price}</td>
-<td>${boot.surface}</td>
-<td>${boot.weight}</td>
+
+<td>${boot.store}</td>
+
+<td class="best">€${boot.price}</td>
+
+<td>Best Price</td>
+
+<td><button class="buy">Buy</button></td>
+
 `
 
-compareTable.appendChild(row)
+table.appendChild(row)
 
 }
 

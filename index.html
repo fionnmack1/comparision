@@ -9,7 +9,7 @@
 
 <body class="bg-gray-100">
 
-<header class="bg-black text-white p-4 flex justify-between">
+<header class="bg-black text-white p-4 flex justify-between items-center">
 <h1 class="text-xl font-bold">BootDeal ⚽</h1>
 
 <input
@@ -31,14 +31,34 @@ Compare prices from multiple stores
 
 <div class="max-w-6xl mx-auto px-4">
 
-<h2 class="text-2xl font-bold mb-6">Popular Boots</h2>
+<!-- TOP DEALS -->
+
+<div class="bg-white p-6 rounded shadow mb-10">
+
+<h2 class="text-2xl font-bold mb-4">
+🔥 Top Deals Today
+</h2>
+
+<div id="topDeals" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+</div>
+
+
+<!-- POPULAR BOOTS -->
+
+<h2 class="text-2xl font-bold mb-6">
+Popular Boots
+</h2>
 
 <div
 id="bootGrid"
-class="grid grid-cols-1 md:grid-cols-3 gap-6"
+class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-10"
 ></div>
 
-<h2 class="text-2xl font-bold mt-12 mb-4">
+
+<!-- BEST DEALS TABLE -->
+
+<h2 class="text-2xl font-bold mb-4">
 Best Deals
 </h2>
 
@@ -63,7 +83,8 @@ const boots = [
 
 {
 brand:"Nike",
-image:"https://images.unsplash.com/photo-1600185365483-26d7a4cc7519"
+model:"Mercurial Vapor 15",
+image:"https://images.unsplash.com/photo-1600185365483-26d7a4cc7519",
 prices:[
 {store:"Nike",price:260,link:"#"},
 {store:"SportsDirect",price:229,link:"#"},
@@ -73,7 +94,8 @@ prices:[
 
 {
 brand:"Adidas",
-image:"https://images.unsplash.com/photo-1608231387042-66d1773070a5"
+model:"Predator Elite",
+image:"https://images.unsplash.com/photo-1608231387042-66d1773070a5",
 prices:[
 {store:"Adidas",price:250,link:"#"},
 {store:"SportsDirect",price:220,link:"#"},
@@ -96,6 +118,7 @@ prices:[
 
 const grid = document.getElementById("bootGrid")
 const table = document.getElementById("dealTable")
+const topDeals = document.getElementById("topDeals")
 
 function renderBoots(list){
 
@@ -117,7 +140,7 @@ card.className="bg-white p-4 rounded shadow"
 
 card.innerHTML=`
 
-<img src="${boot.image}" class="w-full mb-3">
+<img src="${boot.image}" class="w-full mb-3 rounded">
 
 <h3 class="text-lg font-bold">${boot.model}</h3>
 
@@ -137,6 +160,40 @@ Find Best Deal
 `
 
 grid.appendChild(card)
+
+})
+
+}
+
+function renderTopDeals(){
+
+topDeals.innerHTML=""
+
+boots.forEach(boot=>{
+
+let cheapest = boot.prices[0]
+
+boot.prices.forEach(p=>{
+if(p.price < cheapest.price){
+cheapest = p
+}
+})
+
+const deal = document.createElement("div")
+
+deal.className="bg-gray-100 p-4 rounded"
+
+deal.innerHTML=`
+
+<h3 class="font-bold">${boot.model}</h3>
+
+<p class="text-green-600 font-bold">
+🔥 €${cheapest.price}
+</p>
+
+`
+
+topDeals.appendChild(deal)
 
 })
 
@@ -187,35 +244,7 @@ table.appendChild(row)
 }
 
 renderBoots(boots)
-  const topDeals = document.getElementById("topDeals")
-
-boots.forEach(boot => {
-
-let cheapest = boot.prices[0]
-
-boot.prices.forEach(p=>{
-if(p.price < cheapest.price){
-cheapest = p
-}
-})
-
-const deal = document.createElement("div")
-
-deal.className="bg-gray-100 p-4 rounded"
-
-deal.innerHTML=`
-
-<h3 class="font-bold">${boot.model}</h3>
-
-<p class="text-green-600 font-bold">
-🔥 €${cheapest.price}
-</p>
-
-`
-
-topDeals.appendChild(deal)
-
-})
+renderTopDeals()
 
 const searchInput = document.getElementById("searchInput")
 
@@ -235,11 +264,4 @@ renderBoots(filtered)
 </script>
 
 </body>
-  <div class="bg-white p-6 rounded shadow mb-8">
-
-<h2 class="text-2xl font-bold mb-4">🔥 Top Deals Today</h2>
-
-<div id="topDeals" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
-
-</div>
 </html>

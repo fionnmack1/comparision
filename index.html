@@ -187,6 +187,35 @@ table.appendChild(row)
 }
 
 renderBoots(boots)
+  const topDeals = document.getElementById("topDeals")
+
+boots.forEach(boot => {
+
+let cheapest = boot.prices[0]
+
+boot.prices.forEach(p=>{
+if(p.price < cheapest.price){
+cheapest = p
+}
+})
+
+const deal = document.createElement("div")
+
+deal.className="bg-gray-100 p-4 rounded"
+
+deal.innerHTML=`
+
+<h3 class="font-bold">${boot.model}</h3>
+
+<p class="text-green-600 font-bold">
+🔥 €${cheapest.price}
+</p>
+
+`
+
+topDeals.appendChild(deal)
+
+})
 
 const searchInput = document.getElementById("searchInput")
 
@@ -206,4 +235,11 @@ renderBoots(filtered)
 </script>
 
 </body>
+  <div class="bg-white p-6 rounded shadow mb-8">
+
+<h2 class="text-2xl font-bold mb-4">🔥 Top Deals Today</h2>
+
+<div id="topDeals" class="grid grid-cols-1 md:grid-cols-3 gap-4"></div>
+
+</div>
 </html>

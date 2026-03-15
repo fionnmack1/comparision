@@ -1,66 +1,59 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-
+<script src="https://cdn.tailwindcss.com"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>BootDeal - Find the Cheapest Football Boots</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
+<title>BootDeal</title>
 </head>
 
 <body class="bg-gray-100">
 
-<header class="bg-black text-white p-4 flex justify-between items-center">
-
+<header class="bg-black text-white p-4 flex justify-between">
 <h1 class="text-xl font-bold">BootDeal ⚽</h1>
 
-<input 
-type="text"
-placeholder="Search football boots..."
+<input
 id="searchInput"
+placeholder="Search boots..."
 class="text-black px-3 py-2 rounded"
 />
-
 </header>
 
-<section class="bg-white py-12 text-center">
-
-<h2 class="text-3xl font-bold mb-3">
-Find the Cheapest Football Boots
-</h2>
+<section class="text-center py-12">
+<h1 class="text-4xl font-bold mb-3">
+Find The Cheapest Football Boots
+</h1>
 
 <p class="text-gray-600">
-Compare prices from multiple stores and get the best deal.
+Compare prices from multiple stores
 </p>
-
 </section>
 
-<div class="max-w-6xl mx-auto p-6">
+<div class="max-w-6xl mx-auto px-4">
 
 <h2 class="text-2xl font-bold mb-6">Popular Boots</h2>
 
-<div id="bootGrid" class="grid grid-cols-1 md:grid-cols-3 gap-6"></div>
+<div
+id="bootGrid"
+class="grid grid-cols-1 md:grid-cols-3 gap-6"
+></div>
 
-<div class="mt-12">
+<h2 class="text-2xl font-bold mt-12 mb-4">
+Best Deals
+</h2>
 
-<h2 class="text-2xl font-bold mb-4">Best Deals</h2>
-
-<table id="compareTable" class="w-full bg-white shadow rounded">
+<table class="w-full bg-white rounded shadow">
 
 <tr class="bg-gray-200">
-<th class="p-2">Boot</th>
-<th class="p-2">Store</th>
-<th class="p-2">Price</th>
-<th class="p-2">Deal</th>
+<th class="p-3">Boot</th>
+<th>Store</th>
+<th>Price</th>
+<th>Deal</th>
 </tr>
 
-</table>
+<tbody id="dealTable"></tbody>
 
-</div>
+</table>
 
 </div>
 
@@ -71,54 +64,42 @@ const boots = [
 {
 brand:"Nike",
 model:"Mercurial Vapor 15",
-image:"https://via.placeholder.com/300x200",
+image:"https://static.nike.com/a/images/t_PDP_1728_v1/f_auto,q_auto:eco/mercurial-vapor-15-elite-fg-football-boot.png",
 prices:[
-{store:"Nike",price:260},
-{store:"SportsDirect",price:229},
-{store:"ProDirect",price:235}
+{store:"Nike",price:260,link:"#"},
+{store:"SportsDirect",price:229,link:"#"},
+{store:"ProDirect",price:235,link:"#"}
 ]
 },
 
 {
 brand:"Adidas",
 model:"Predator Elite",
-image:"https://via.placeholder.com/300x200",
+image:"https://assets.adidas.com/images/h_840,f_auto,q_auto,fl_lossy,c_fill,g_auto/predator-elite-fg-boots.png",
 prices:[
-{store:"Adidas",price:250},
-{store:"SportsDirect",price:220},
-{store:"ProDirect",price:230}
+{store:"Adidas",price:250,link:"#"},
+{store:"SportsDirect",price:220,link:"#"},
+{store:"ProDirect",price:230,link:"#"}
 ]
 },
 
 {
 brand:"Puma",
 model:"Future 7 Ultimate",
-image:"https://via.placeholder.com/300x200",
+image:"https://images.puma.com/image/upload/f_auto,q_auto,b_rgb:fafafa/global/107599/01/sv01/fnd/PNA/fmt/png",
 prices:[
-{store:"Puma",price:240},
-{store:"SportsDirect",price:210},
-{store:"ProDirect",price:225}
-]
-},
-
-{
-brand:"New Balance",
-model:"Furon v7",
-image:"https://via.placeholder.com/300x200",
-prices:[
-{store:"New Balance",price:220},
-{store:"SportsDirect",price:199},
-{store:"ProDirect",price:205}
+{store:"Puma",price:240,link:"#"},
+{store:"SportsDirect",price:210,link:"#"},
+{store:"ProDirect",price:225,link:"#"}
 ]
 }
 
 ]
 
 const grid = document.getElementById("bootGrid")
-const table = document.getElementById("compareTable")
-const searchInput = document.getElementById("searchInput")
+const table = document.getElementById("dealTable")
 
-function displayBoots(list){
+function renderBoots(list){
 
 grid.innerHTML=""
 
@@ -134,21 +115,23 @@ cheapest = p
 
 const card = document.createElement("div")
 
-card.className = "bg-white rounded shadow p-4"
+card.className="bg-white p-4 rounded shadow"
 
-card.innerHTML = `
+card.innerHTML=`
 
-<img src="${boot.image}" class="rounded mb-3">
+<img src="${boot.image}" class="w-full mb-3">
 
 <h3 class="text-lg font-bold">${boot.model}</h3>
 
-<p class="text-gray-600">${boot.brand}</p>
+<p class="text-gray-500">${boot.brand}</p>
 
-<p class="font-bold mt-2">From €${cheapest.price}</p>
+<p class="font-bold text-green-600 mt-2">
+🔥 From €${cheapest.price}
+</p>
 
-<button 
+<button
 onclick="showDeals(${index})"
-class="mt-3 bg-green-500 text-white px-4 py-2 rounded w-full"
+class="bg-green-500 text-white px-4 py-2 mt-3 rounded w-full"
 >
 Find Best Deal
 </button>
@@ -161,18 +144,9 @@ grid.appendChild(card)
 
 }
 
-displayBoots(boots)
-
 function showDeals(index){
 
-table.innerHTML = `
-<tr class="bg-gray-200">
-<th class="p-2">Boot</th>
-<th class="p-2">Store</th>
-<th class="p-2">Price</th>
-<th class="p-2">Deal</th>
-</tr>
-`
+table.innerHTML=""
 
 const boot = boots[index]
 
@@ -188,18 +162,22 @@ boot.prices.forEach(p=>{
 
 const row = document.createElement("tr")
 
-row.innerHTML = `
+row.innerHTML=`
 
-<td class="p-2">${boot.model}</td>
+<td class="p-3">${boot.model}</td>
 
-<td class="p-2">${p.store}</td>
+<td>${p.store}</td>
 
-<td class="p-2 ${p.price===cheapest.price ? 'font-bold text-green-600' : ''}">
+<td class="${p.price===cheapest.price ? 'text-green-600 font-bold' : ''}">
 €${p.price}
 </td>
 
-<td class="p-2">
-${p.price===cheapest.price ? "Best Deal 🔥" : ""}
+<td>
+<a href="${p.link}" target="_blank">
+<button class="bg-black text-white px-3 py-1 rounded">
+Buy
+</button>
+</a>
 </td>
 
 `
@@ -210,6 +188,10 @@ table.appendChild(row)
 
 }
 
+renderBoots(boots)
+
+const searchInput = document.getElementById("searchInput")
+
 searchInput.addEventListener("keyup",function(){
 
 const search = searchInput.value.toLowerCase()
@@ -219,7 +201,7 @@ boot.model.toLowerCase().includes(search) ||
 boot.brand.toLowerCase().includes(search)
 )
 
-displayBoots(filtered)
+renderBoots(filtered)
 
 })
 

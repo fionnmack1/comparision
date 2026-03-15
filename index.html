@@ -1,10 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<script src="https://cdn.tailwindcss.com"></script>
+
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BootDeal – Find the Cheapest Football Boots</title>
+
+<title>BootDeal - Find the Cheapest Football Boots</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
 </head>
 
 <body class="bg-gray-100">
@@ -21,6 +25,7 @@ class="text-black px-4 py-2 rounded"
 
 </header>
 
+
 <section class="text-center py-10">
 
 <h1 class="text-4xl font-bold mb-3">
@@ -28,22 +33,63 @@ Find The Cheapest Football Boots
 </h1>
 
 <p class="text-gray-600">
-Compare prices from multiple stores instantly
+Compare prices from multiple stores
 </p>
 
 </section>
 
+
 <div class="max-w-7xl mx-auto px-4">
+
+<!-- AI SECTION -->
+
+<div class="bg-white p-6 rounded shadow mb-8">
+
+<h2 class="text-2xl font-bold mb-4">
+🤖 BootDeal AI
+</h2>
+
+<input
+id="aiQuestion"
+placeholder="Example: best boots for a winger under €200"
+class="border p-3 w-full rounded mb-3"
+/>
+
+<button
+onclick="askAI()"
+class="bg-black text-white px-4 py-2 rounded"
+>
+Ask AI
+</button>
+
+<p id="aiResponse" class="mt-4 text-gray-700"></p>
+
+</div>
+
 
 <!-- FILTERS -->
 
 <div class="flex gap-3 mb-6 flex-wrap">
 
-<button onclick="filterBrand('all')" class="bg-black text-white px-4 py-2 rounded">All</button>
-<button onclick="filterBrand('Nike')" class="bg-white px-4 py-2 rounded shadow">Nike</button>
-<button onclick="filterBrand('Adidas')" class="bg-white px-4 py-2 rounded shadow">Adidas</button>
-<button onclick="filterBrand('Puma')" class="bg-white px-4 py-2 rounded shadow">Puma</button>
-<button onclick="filterBrand('New Balance')" class="bg-white px-4 py-2 rounded shadow">New Balance</button>
+<button onclick="filterBrand('all')" class="bg-black text-white px-4 py-2 rounded">
+All
+</button>
+
+<button onclick="filterBrand('Nike')" class="bg-white px-4 py-2 rounded shadow">
+Nike
+</button>
+
+<button onclick="filterBrand('Adidas')" class="bg-white px-4 py-2 rounded shadow">
+Adidas
+</button>
+
+<button onclick="filterBrand('Puma')" class="bg-white px-4 py-2 rounded shadow">
+Puma
+</button>
+
+<button onclick="filterBrand('New Balance')" class="bg-white px-4 py-2 rounded shadow">
+New Balance
+</button>
 
 </div>
 
@@ -61,16 +107,16 @@ Compare prices from multiple stores instantly
 </div>
 
 
-<!-- BOOTS GRID -->
-
-<h2 class="text-2xl font-bold mb-6">Boot Finder</h2>
+<h2 class="text-2xl font-bold mb-6">
+Popular Boots
+</h2>
 
 <div id="bootGrid" class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10"></div>
 
 
-<!-- DEAL TABLE -->
-
-<h2 class="text-2xl font-bold mb-4">Price Comparison</h2>
+<h2 class="text-2xl font-bold mb-4">
+Best Deals
+</h2>
 
 <table class="w-full bg-white rounded shadow">
 
@@ -87,7 +133,9 @@ Compare prices from multiple stores instantly
 
 </div>
 
+
 <script>
+
 
 const boots = [
 
@@ -114,17 +162,6 @@ prices:[
 },
 
 {
-brand:"Nike",
-model:"Tiempo Legend 10",
-image:"https://images.unsplash.com/photo-1511551203524-9a24350a5771",
-prices:[
-{store:"Nike",price:240,link:"#"},
-{store:"SportsDirect",price:205,link:"#"},
-{store:"ProDirect",price:210,link:"#"}
-]
-},
-
-{
 brand:"Adidas",
 model:"Predator Elite",
 image:"https://images.unsplash.com/photo-1608231387042-66d1773070a5",
@@ -143,17 +180,6 @@ prices:[
 {store:"Adidas",price:240,link:"#"},
 {store:"SportsDirect",price:210,link:"#"},
 {store:"ProDirect",price:215,link:"#"}
-]
-},
-
-{
-brand:"Adidas",
-model:"Copa Pure",
-image:"https://images.unsplash.com/photo-1519744346365-3e1c3c7f80c7",
-prices:[
-{store:"Adidas",price:230,link:"#"},
-{store:"SportsDirect",price:199,link:"#"},
-{store:"ProDirect",price:205,link:"#"}
 ]
 },
 
@@ -192,23 +218,30 @@ prices:[
 
 ]
 
+
 const grid = document.getElementById("bootGrid")
 const table = document.getElementById("dealTable")
 const topDeals = document.getElementById("topDeals")
+
 
 function getCheapest(boot){
 
 let cheapest = boot.prices[0]
 
 boot.prices.forEach(p=>{
+
 if(p.price < cheapest.price){
+
 cheapest = p
+
 }
+
 })
 
 return cheapest
 
 }
+
 
 function renderBoots(list){
 
@@ -249,6 +282,7 @@ grid.appendChild(card)
 
 }
 
+
 function renderTopDeals(){
 
 topDeals.innerHTML=""
@@ -279,6 +313,7 @@ topDeals.appendChild(card)
 })
 
 }
+
 
 function showDeals(index){
 
@@ -318,11 +353,15 @@ table.appendChild(row)
 
 }
 
+
 function filterBrand(brand){
 
 if(brand==="all"){
+
 renderBoots(boots)
+
 return
+
 }
 
 const filtered = boots.filter(b=>b.brand===brand)
@@ -331,171 +370,42 @@ renderBoots(filtered)
 
 }
 
-renderBoots(boots)
-renderTopDeals()
 
 document.getElementById("searchInput").addEventListener("keyup",function(){
 
 const search = this.value.toLowerCase()
 
 const filtered = boots.filter(b =>
+
 b.model.toLowerCase().includes(search) ||
+
 b.brand.toLowerCase().includes(search)
+
 )
 
 renderBoots(filtered)
 
 })
 
-<script>
 
-const boots = [
-{
-brand:"Nike",
-model:"Mercurial Vapor 15",
-image:"https://images.unsplash.com/photo-1600185365483-26d7a4cc7519",
-prices:[
-{store:"Nike",price:260,link:"#"},
-{store:"SportsDirect",price:229,link:"#"},
-{store:"ProDirect",price:235,link:"#"}
-]
-},
-{
-brand:"Adidas",
-model:"Predator Elite",
-image:"https://images.unsplash.com/photo-1608231387042-66d1773070a5",
-prices:[
-{store:"Adidas",price:250,link:"#"},
-{store:"SportsDirect",price:220,link:"#"},
-{store:"ProDirect",price:230,link:"#"}
-]
-},
-{
-brand:"Puma",
-model:"Future 7",
-image:"https://images.unsplash.com/photo-1519741497674-611481863552",
-prices:[
-{store:"Puma",price:240,link:"#"},
-{store:"SportsDirect",price:210,link:"#"},
-{store:"ProDirect",price:225,link:"#"}
-]
-}
-]
+async function askAI(){
 
-const grid = document.getElementById("bootGrid")
-const table = document.getElementById("dealTable")
-const topDeals = document.getElementById("topDeals")
+const question = document.getElementById("aiQuestion").value
 
-function getCheapest(boot){
-let cheapest = boot.prices[0]
-boot.prices.forEach(p=>{
-if(p.price < cheapest.price){
-cheapest = p
-}
-})
-return cheapest
-}
+const response = document.getElementById("aiResponse")
 
-function renderBoots(){
+response.innerText="Thinking..."
 
-grid.innerHTML=""
-
-boots.forEach((boot,index)=>{
-
-const cheapest = getCheapest(boot)
-
-const card = document.createElement("div")
-
-card.className="bg-white p-4 rounded shadow"
-
-card.innerHTML=`
-
-<img src="${boot.image}" class="w-full rounded mb-2">
-
-<h3 class="font-bold">${boot.model}</h3>
-
-<p class="text-gray-500">${boot.brand}</p>
-
-<p class="text-green-600 font-bold">
-From €${cheapest.price}
-</p>
-
-<button onclick="showDeals(${index})"
-class="bg-green-500 text-white px-3 py-1 mt-2 rounded w-full">
-Find Deals
-</button>
-
-`
-
-grid.appendChild(card)
-
-})
+response.innerText =
+"For now this is a demo AI response. Example recommendation: Mercurial Vapor 15, Predator Elite, or Puma Ultra Ultimate."
 
 }
 
-function renderTopDeals(){
 
-topDeals.innerHTML=""
+renderBoots(boots)
 
-boots
-.sort((a,b)=>getCheapest(a).price-getCheapest(b).price)
-.slice(0,3)
-.forEach(boot=>{
-
-const cheapest = getCheapest(boot)
-
-const div = document.createElement("div")
-
-div.className="bg-gray-100 p-3 rounded"
-
-div.innerHTML=`
-<strong>${boot.model}</strong>
-<br>
-€${cheapest.price}
-`
-
-topDeals.appendChild(div)
-
-})
-
-}
-
-function showDeals(index){
-
-table.innerHTML=""
-
-const boot = boots[index]
-
-const cheapest = getCheapest(boot)
-
-boot.prices.forEach(p=>{
-
-const row = document.createElement("tr")
-
-row.innerHTML=`
-
-<td class="p-2">${boot.model}</td>
-<td>${p.store}</td>
-<td class="${p.price===cheapest.price?'text-green-600 font-bold':''}">
-€${p.price}
-</td>
-
-<td>
-<button class="bg-black text-white px-2 py-1 rounded">
-Buy
-</button>
-</td>
-
-`
-
-table.appendChild(row)
-
-})
-
-}
-
-renderBoots()
 renderTopDeals()
+
 
 </script>
 
